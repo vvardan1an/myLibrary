@@ -2,6 +2,7 @@ package manager;
 
 import database.DBConnectionProvider;
 import model.Author;
+import model.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -73,6 +74,36 @@ public class AuthorManager {
                 .email(resultSet.getString("email"))
                 .age(resultSet.getInt("age"))
                 .build();
+    }
+
+    public void removeAuthor(int id) {
+        String sql = "delete from author where id =" + id;
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void edit(Author author) {
+        String sql = "update author set `name` = ?,surname = ?,email = ?,age = ? where id = ?";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, author.getName());
+            ps.setString(2, author.getSurname());
+            ps.setString(3, author.getEmail());
+            ps.setInt(4, author.getAge());
+            ps.setInt(5,author.getId());
+            ps.executeUpdate();
+            ResultSet resultSet = ps.getGeneratedKeys();
+            if (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                author.setId(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

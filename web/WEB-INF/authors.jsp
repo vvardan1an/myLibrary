@@ -1,11 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="model.Author" %><%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 04.09.2022
-  Time: 16:44
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="model.Author" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -19,13 +13,15 @@
 
 %>
 
-<table style="border: 3px black solid">
+<table border="1px solid">
 
     <tr>
-        <th>name</th>
-        <th>surname</th>
-        <th>email</th>
-        <th>age</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Action</th>
+        <th>Edit</th>
     </tr>
 
     <% for (Author author : authors) { %>
@@ -38,6 +34,12 @@
         <td><%=author.getEmail()%>
         </td>
         <td><%=author.getAge()%>
+        </td>
+        <td>
+            <a href="/authors/remove?authorId=<%=author.getId()%>">Remove</a>
+        </td>
+        <td>
+            <a href="/authors/edit?authorId=<%=author.getId()%>">Edit</a>"
         </td>
     </tr>
 

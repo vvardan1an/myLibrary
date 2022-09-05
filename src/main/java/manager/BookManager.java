@@ -69,6 +69,16 @@ public class BookManager {
         return null;
     }
 
+    public void removeBook(int id) {
+        String sql = "delete from book where id =" + id;
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Book getBookFromResultSet(ResultSet resultSet) throws SQLException {
         Book book = new Book();
         book.setId(resultSet.getInt("id"));
@@ -80,5 +90,21 @@ public class BookManager {
         book.setAuthor(author1);
 
         return book;
+    }
+
+    public void edit(Book books) {
+        String sql = "update book set title = ?,description = ?,price = ?,author_id = ? where id = ?";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, books.getTitle());
+            ps.setString(2, books.getDescription());
+            ps.setDouble(3, books.getPrice());
+            ps.setInt(4, books.getAuthor().getId());
+            ps.setInt(5,books.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

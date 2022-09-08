@@ -7,15 +7,10 @@
 </head>
 <body>
 
-<%
-
-    List<Author> authors = (List<Author>) request.getAttribute("authors");
-
-%>
-
 <table border="1px solid">
 
     <tr>
+        <th>Image</th>
         <th>Name</th>
         <th>Surname</th>
         <th>Email</th>
@@ -24,9 +19,17 @@
         <th>Edit</th>
     </tr>
 
-    <% for (Author author : authors) { %>
-
+    <% List<Author> authors = (List<Author>) request.getAttribute("authors");
+       for (Author author : authors) {
+    %>
     <tr>
+        <td>
+            <% if(author.getProfilePic() == null || author.getProfilePic().length() == 0) { %>
+            <img src="/images/av.jpg" width="100" />
+            <% } else { %>
+            <img src="/getImage?image=<%=author.getProfilePic()%>" width="100" />
+            <% } %>
+        </td>
         <td><%=author.getName()%>
         </td>
         <td><%=author.getSurname()%>

@@ -14,7 +14,7 @@
     Book book = new Book();
 %>
 
-<form action="/books/add" method="post">
+<form action="/books/add" method="post" enctype="multipart/form-data">
     Please input book title:
     <input name="title" placeholder="Title">
     Please input book description:
@@ -28,6 +28,8 @@
         </option>
         <%}%>
     </select>
+
+    <input type="file" name="image">
 
     <input type="submit" value="Add">
 

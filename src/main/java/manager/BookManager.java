@@ -18,7 +18,7 @@ public class BookManager {
     private final AuthorManager authorManager = new AuthorManager();
 
     public void add(Book book) {
-        String sql = "insert into book(title,description,price,author_id) VALUES (?,?,?,?)";
+        String sql = "insert into book(title,description,price,author_id,profile_pic_book) VALUES (?,?,?,?,?)";
         try {
 
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -26,6 +26,7 @@ public class BookManager {
             ps.setString(2, book.getDescription());
             ps.setDouble(3, book.getPrice());
             ps.setInt(4, book.getAuthor().getId());
+            ps.setString(5,book.getProfilePicBook());
 
             ps.executeUpdate();
             ResultSet resultSet = ps.getGeneratedKeys();
@@ -87,13 +88,14 @@ public class BookManager {
         book.setPrice(resultSet.getDouble("price"));
         int author = resultSet.getInt("author_id");
         Author author1 = authorManager.getById(author);
+        book.setProfilePicBook(resultSet.getString("profile_pic_book"));
         book.setAuthor(author1);
 
         return book;
     }
 
     public void edit(Book books) {
-        String sql = "update book set title = ?,description = ?,price = ?,author_id = ? where id = ?";
+        String sql = "update book set title = ?,description = ?,price = ?,author_id = ?,profile_pic_book = ? where id = ?";
         try {
 
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -102,6 +104,7 @@ public class BookManager {
             ps.setDouble(3, books.getPrice());
             ps.setInt(4, books.getAuthor().getId());
             ps.setInt(5,books.getId());
+            ps.setString(6, books.getProfilePicBook());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

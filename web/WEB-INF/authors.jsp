@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<table border="1px solid">
+<table border="1px solid" width="100%" bgcolor="#4b0082">
 
     <tr>
         <th>Image</th>
